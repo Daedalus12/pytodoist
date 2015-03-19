@@ -560,8 +560,11 @@ class User(TodoistObject):
         tasks = []
         for task_json in tasks_json:
             project_id = task_json['project_id']
-            project = self.get_project_with_id(project_id)
-            tasks.append(Task(task_json, project))
+            try:
+                project = self.get_project_with_id(project_id)
+                tasks.append(Task(task_json, project))
+            except RequestError:
+                pass
         return tasks
 
     def get_tasks(self):
